@@ -3,10 +3,10 @@ package homework5;
 import java.util.Objects;
 
 public class User {
-    private int id;
-    private String name;
-    private String password;
-    private String email;
+    private final int id;
+    private final String name;
+    private final String password;
+    private final String email;
 
     private User(BuilderUser builder){
         this.id = builder.id;
@@ -62,10 +62,10 @@ public class User {
         }
         private void validate(){
             if(id <= 0){
-                throw new IllegalArgumentException("ID не может быть меньше нуля");
+                throw new IllegalArgumentException("ID должен быть больше 0");
             }
 
-            if(name == null || name.trim().length() < 1){
+            if(name == null || name.trim().isEmpty()){
                 throw new IllegalArgumentException("Имя должно быть больше 1 символа");
             }
 
