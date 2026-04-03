@@ -1,13 +1,13 @@
 package homework5;
 
-import java.util.ArrayList;
-import java.util.List;
+import homework5.collection.UserList;
+
 import java.util.Scanner;
 
 public class Main {
 
     private static final Scanner scanner = new Scanner(System.in);
-    private static final List<User> users = new ArrayList<>();
+    private static final UserList users = new UserList();
 
     private static void handleManualInput() {
 
@@ -23,7 +23,7 @@ public class Main {
 
     private static void handleBubbleSort() {
         if (users.isEmpty()) {
-            System.out.println("Сначала заполните список пользователей");
+            System.out.println("Сначала заполните коллекцию пользователей");
             return;
         }
 
@@ -33,7 +33,7 @@ public class Main {
 
     private static void handleSelectionSort() {
         if (users.isEmpty()) {
-            System.out.println("Сначала заполните список пользователей");
+            System.out.println("Сначала заполните коллекцию пользователей");
             return;
         }
 
@@ -43,7 +43,7 @@ public class Main {
 
     private static void handleInsertionSort() {
         if (users.isEmpty()) {
-            System.out.println("Сначала заполните список пользователей");
+            System.out.println("Сначала заполните коллекцию пользователей");
             return;
         }
 

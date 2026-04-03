@@ -1,8 +1,7 @@
 package homework5.service;
 
-import homework5.User;
-import java.util.List;
+import homework5.collection.UserList;
 
 public interface InputService {
-    List<User> input(int size);
+    UserList input(int size);
 }

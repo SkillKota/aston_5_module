@@ -1,9 +1,9 @@
 package homework5.strategy;
 
 import homework5.User;
+import homework5.collection.UserList;
 import java.util.Comparator;
-import java.util.List;
 
 public interface SortStrategy {
-    void sort(List<User> users, Comparator<User> comparator);
+    void sort(UserList users, Comparator<User> comparator);
 }
