@@ -1,10 +1,7 @@
 package homework5;
 
 import homework5.collection.UserList;
-import homework5.service.CounterService;
-import homework5.service.FileSaveService;
-import homework5.service.InputService;
-import homework5.service.UserComparatorProvider;
+import homework5.service.*;
 import homework5.strategy.SortStrategy;
 import homework5.util.FillType;
 import homework5.util.SortField;
@@ -22,7 +19,7 @@ public class Main {
     private static final SortStrategy bubbleSortStrategy = null;
     private static final SortStrategy selectionSortStrategy = null;
     private static final SortStrategy insertionSortStrategy = null;
-    private static final UserComparatorProvider comparatorProvider = null;
+    private static final UserComparatorProvider comparatorProvider = new UserComparator();
     private static final FileSaveService fileSaveService = null;
     private static final CounterService counterService = null;
 
