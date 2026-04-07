@@ -6,11 +6,11 @@ public class UserValidator {
             return false;
         }
 
-        return email.matches("^[A-Za-z0-9+_.-]+@(.+)$");
+        return email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z]+\\.[A-Za-z]{2,}$");
     }
 
     public static boolean validateName(String name) {
-        if (name != null && name.matches("^[A-Za-z]$")) {
+        if (name != null && name.matches("^[А-Яа-яA-Za-z'\\-]+$")) {
             return true;
         }
 
