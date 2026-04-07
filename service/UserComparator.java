@@ -9,10 +9,10 @@ public class UserComparator implements UserComparatorProvider {
     @Override
     public Comparator<User> getComparator(SortField sortField) {
         return switch (sortField.getMenuNumber()) {
-            case 1 -> (o1, o2) -> o1.getId() - o2.getId();
-            case 2 -> (o1, o2) -> o1.getName().compareTo(o2.getName());
-            case 3 -> (o1, o2) -> o1.getEmail().compareTo(o2.getEmail());
-            case 4 -> (o1, o2) -> o1.getPassword().compareTo(o2.getPassword());
+            case 1 -> Comparator.comparingInt(User::getId);
+            case 2 -> Comparator.comparing(User::getName, String.CASE_INSENSITIVE_ORDER);
+            case 3 -> Comparator.comparing(User::getEmail, String.CASE_INSENSITIVE_ORDER);
+            case 4 -> Comparator.comparing(User::getPassword);
             default -> null;
         };
     }
