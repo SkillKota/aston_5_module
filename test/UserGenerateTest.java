@@ -9,7 +9,8 @@ public class UserGenerateTest {
 
     public static void main(String[] args) {
 
-        List<User> users = RandomUserGenerator.generateRandomUsers(10);
+        RandomUserGenerator randomUserGenerator = new RandomUserGenerator();
+        List<User> users = randomUserGenerator.input(10).toList();
 
         users.forEach(user -> {
             System.out.println(user.toString());
