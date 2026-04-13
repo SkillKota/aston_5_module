@@ -5,6 +5,9 @@ import homework5.service.CounterService;
 import homework5.service.FileSaveService;
 import homework5.service.InputService;
 import homework5.service.UserComparatorProvider;
+import homework5.strategy.BubbleSortStrategy;
+import homework5.strategy.InsertionSortStrategy;
+import homework5.strategy.SelectionSortStrategy;
 import homework5.strategy.SortStrategy;
 import homework5.util.FillType;
 import homework5.util.SortField;
@@ -19,10 +22,10 @@ public class Main {
     private static final InputService manualInputService = null;
     private static final InputService fileInputService = null;
     private static final InputService randomInputService = null;
-    private static final SortStrategy bubbleSortStrategy = null;
-    private static final SortStrategy selectionSortStrategy = null;
-    private static final SortStrategy insertionSortStrategy = null;
-    private static final UserComparatorProvider comparatorProvider = null;
+    private static final SortStrategy bubbleSortStrategy = new BubbleSortStrategy();
+    private static final SortStrategy selectionSortStrategy = new SelectionSortStrategy();
+    private static final SortStrategy insertionSortStrategy = new InsertionSortStrategy();
+    private static final UserComparatorProvider comparatorProvider = Main::getComparatorByField;
     private static final FileSaveService fileSaveService = null;
     private static final CounterService counterService = null;
 
@@ -215,6 +218,21 @@ public class Main {
             System.out.println("Компаратор для поля \"" + sortField.getDescription() + "\" не найден");
         }
         return comparator;
+    }
+
+    private static Comparator<User> getComparatorByField(SortField sortField) {
+        switch (sortField) {
+            case ID:
+                return Comparator.comparingInt(User::getId);
+            case NAME:
+                return Comparator.comparing(User::getName);
+            case EMAIL:
+                return Comparator.comparing(User::getEmail);
+            case PASSWORD:
+                return Comparator.comparing(User::getPassword);
+            default:
+                return null;
+        }
     }
 
     private static SortField requestSortField() {
