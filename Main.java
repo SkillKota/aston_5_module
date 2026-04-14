@@ -9,6 +9,7 @@ import homework5.service.InputService;
 import homework5.service.ManualInputService;
 import homework5.service.MultiThreadCounter;
 import homework5.service.RandomUserGenerator;
+import homework5.service.UserComparator;
 import homework5.service.UserComparatorProvider;
 import homework5.strategy.BubbleSortStrategy;
 import homework5.strategy.InsertionSortStrategy;
@@ -30,7 +31,7 @@ public class Main {
     private static final SortStrategy bubbleSortStrategy = new BubbleSortStrategy();
     private static final SortStrategy selectionSortStrategy = new SelectionSortStrategy();
     private static final SortStrategy insertionSortStrategy = new InsertionSortStrategy();
-    private static final UserComparatorProvider comparatorProvider = Main::getComparatorByField;
+    private static final UserComparatorProvider comparatorProvider = new UserComparator();
     private static final FileSaveService fileSaveService = new FileSaveUserService();
     private static final CounterService counterService = new MultiThreadCounter();
 
@@ -223,21 +224,6 @@ public class Main {
             System.out.println("Компаратор для поля \"" + sortField.getDescription() + "\" не найден");
         }
         return comparator;
-    }
-
-    private static Comparator<User> getComparatorByField(SortField sortField) {
-        switch (sortField) {
-            case ID:
-                return Comparator.comparingInt(User::getId);
-            case NAME:
-                return Comparator.comparing(User::getName);
-            case EMAIL:
-                return Comparator.comparing(User::getEmail);
-            case PASSWORD:
-                return Comparator.comparing(User::getPassword);
-            default:
-                return null;
-        }
     }
 
     private static SortField requestSortField() {
