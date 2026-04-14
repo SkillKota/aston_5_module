@@ -20,9 +20,9 @@ public class UserListTest {
         userList.add(firstUser);
         userList.add(secondUser);
 
-        assertCondition(userList.size() == 2, "Размер должен быть равен 2");
-        assertCondition(firstUser.equals(userList.get(0)), "Первый элемент должен совпадать");
-        assertCondition(secondUser.equals(userList.get(1)), "Второй элемент должен совпадать");
+        assertEquals(2, userList.size(), "Размер должен быть равен 2");
+        assertEquals(firstUser, userList.get(0), "Первый элемент должен совпадать");
+        assertEquals(secondUser, userList.get(1), "Второй элемент должен совпадать");
     }
 
     private static void testSet() {
@@ -32,7 +32,7 @@ public class UserListTest {
 
         userList.set(0, replacement);
 
-        assertCondition(replacement.equals(userList.get(0)), "Элемент должен быть заменен");
+        assertEquals(replacement, userList.get(0), "Элемент должен быть заменен");
     }
 
     private static void testRemove() {
@@ -47,9 +47,9 @@ public class UserListTest {
 
         User removed = userList.remove(1);
 
-        assertCondition(secondUser.equals(removed), "Должен удалиться второй пользователь");
-        assertCondition(userList.size() == 2, "Размер должен уменьшиться");
-        assertCondition(thirdUser.equals(userList.get(1)), "Элементы должны сдвинуться влево");
+        assertEquals(secondUser, removed, "Должен удалиться второй пользователь");
+        assertEquals(2, userList.size(), "Размер должен уменьшиться");
+        assertEquals(thirdUser, userList.get(1), "Элементы должны сдвинуться влево");
     }
 
     private static void testClear() {
@@ -59,8 +59,8 @@ public class UserListTest {
 
         userList.clear();
 
-        assertCondition(userList.isEmpty(), "Коллекция должна быть пустой");
-        assertCondition(userList.size() == 0, "Размер должен быть равен 0");
+        assertTrue(userList.isEmpty(), "Коллекция должна быть пустой");
+        assertEquals(0, userList.size(), "Размер должен быть равен 0");
     }
 
     private static User createUser(int id, String name, String password, String email) {
@@ -71,7 +71,19 @@ public class UserListTest {
                 .build();
     }
 
-    private static void assertCondition(boolean condition, String message) {
+    private static void assertEquals(Object expected, Object actual, String message) {
+        if (!expected.equals(actual)) {
+            throw new IllegalStateException(message);
+        }
+    }
+
+    private static void assertEquals(int expected, int actual, String message) {
+        if (expected != actual) {
+            throw new IllegalStateException(message);
+        }
+    }
+
+    private static void assertTrue(boolean condition, String message) {
         if (!condition) {
             throw new IllegalStateException(message);
         }

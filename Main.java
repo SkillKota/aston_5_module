@@ -1,7 +1,21 @@
 package homework5;
 
 import homework5.collection.UserList;
-import homework5.service.*;
+import homework5.service.CounterService;
+import homework5.service.FileInputService;
+import homework5.service.FileSaveService;
+import homework5.service.FileSaveUserService;
+import homework5.service.InputService;
+import homework5.service.ManualInputService;
+import homework5.service.MultiThreadCounter;
+import homework5.service.RandomUserGenerator;
+import homework5.service.UserComparator;
+import homework5.service.UserComparatorProvider;
+import homework5.strategy.BubbleSortStrategy;
+import homework5.strategy.InsertionSortStrategy;
+import homework5.strategy.SelectionSortStrategy;
+import homework5.strategy.AbstractSortStrategy;
+import homework5.strategy.SortMode;
 import homework5.strategy.SortStrategy;
 import homework5.util.FillType;
 import homework5.util.SortField;
@@ -13,15 +27,15 @@ import java.util.Scanner;
 public class Main {
     private static final Scanner scanner = new Scanner(System.in);
     private static final UserList users = new UserList();
-    private static final InputService manualInputService = null;
-    private static final InputService fileInputService = null;
-    private static final InputService randomInputService = null;
-    private static final SortStrategy bubbleSortStrategy = null;
-    private static final SortStrategy selectionSortStrategy = null;
-    private static final SortStrategy insertionSortStrategy = null;
+    private static final InputService manualInputService = new ManualInputService();
+    private static final InputService fileInputService = new FileInputService();
+    private static final InputService randomInputService = new RandomUserGenerator();
+    private static final SortStrategy bubbleSortStrategy = new BubbleSortStrategy();
+    private static final SortStrategy selectionSortStrategy = new SelectionSortStrategy();
+    private static final SortStrategy insertionSortStrategy = new InsertionSortStrategy();
     private static final UserComparatorProvider comparatorProvider = new UserComparator();
-    private static final FileSaveService fileSaveService = null;
-    private static final CounterService counterService = null;
+    private static final FileSaveService fileSaveService = new FileSaveUserService();
+    private static final CounterService counterService = new MultiThreadCounter();
 
     private static void handleManualInput() {
         handleInputByType(FillType.MANUAL);
@@ -190,6 +204,7 @@ public class Main {
         if (comparator == null) {
             return;
         }
+        applySortMode(sortStrategy);
 
         try {
             sortStrategy.sort(users, comparator);
@@ -212,6 +227,33 @@ public class Main {
             System.out.println("Компаратор для поля \"" + sortField.getDescription() + "\" не найден");
         }
         return comparator;
+    }
+
+    private static void applySortMode(SortStrategy sortStrategy) {
+        if (!(sortStrategy instanceof AbstractSortStrategy abstractSortStrategy)) {
+            return;
+        }
+
+        abstractSortStrategy.setMode(requestSortMode());
+    }
+
+    private static SortMode requestSortMode() {
+        while (true) {
+            System.out.println("""
+                    Выберите режим сортировки:
+                    1 - обычная сортировка
+                    2 - сортировка четных id, нечетные остаются на местах
+                    """);
+            int modeNumber = readMenuChoice();
+            switch (modeNumber) {
+                case 1:
+                    return SortMode.NORMAL;
+                case 2:
+                    return SortMode.EVEN_ODD;
+                default:
+                    System.out.println("Неверный выбор режима");
+            }
+        }
     }
 
     private static SortField requestSortField() {
