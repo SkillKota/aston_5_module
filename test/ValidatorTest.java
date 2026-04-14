@@ -1,62 +1,64 @@
 package homework5.test;
 
 import homework5.service.UserValidator;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.NullSource;
-import org.junit.jupiter.params.provider.ValueSource;
 
 public class ValidatorTest {
-    @ParameterizedTest
-    @CsvSource({
-            "mail@gmail.com, mailgmail.com",
-            "mail123@yandex.ru, mail@gmailcom",
-            "mail123@pochta.ru, mail@bk.k",
-    })
-    void testEmailValidation (String correctEmail, String incorrectEmail) {
-        Assertions.assertTrue(UserValidator.validateEmail(correctEmail));
-        Assertions.assertFalse(UserValidator.validateEmail(incorrectEmail));
+    public static void main(String[] args) {
+        testEmailValidation();
+        testNameValidation();
+        testPasswordValidation();
+        testValidateId();
+        System.out.println("ValidatorTest: все проверки пройдены");
     }
 
-    @ParameterizedTest
-    @CsvSource({
-            "Афанасий, 123sd",
-            "Абдуль'Салахаддим, !@%^",
-            "Dmitry, N A M E",
-    })
-    void testNameValidation (String correctName, String incorrectName) {
-        Assertions.assertTrue(UserValidator.validateName(correctName));
-        Assertions.assertFalse(UserValidator.validateName(incorrectName));
+    private static void testEmailValidation() {
+        assertTrue(UserValidator.validateEmail("mail@gmail.com"), "email должен быть валидным");
+        assertTrue(UserValidator.validateEmail("mail123@yandex.ru"), "email должен быть валидным");
+        assertTrue(UserValidator.validateEmail("mail123@pochta.ru"), "email должен быть валидным");
+
+        assertFalse(UserValidator.validateEmail("mailgmail.com"), "email без @ должен быть невалидным");
+        assertFalse(UserValidator.validateEmail("mail@gmailcom"), "email без . должен быть невалидным");
+        assertFalse(UserValidator.validateEmail("mail@bk.k"), "email с короткой зоной должен быть невалидным");
+        assertFalse(UserValidator.validateEmail(null), "null email должен быть невалидным");
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = { "пароль123", "password", "qwe!@#ccc", })
-    void testValidateNormalPassword (String password) {
-        Assertions.assertTrue(UserValidator.validatePassword(password));
+    private static void testNameValidation() {
+        assertTrue(UserValidator.validateName("Афанасий"), "имя должно быть валидным");
+        assertTrue(UserValidator.validateName("Абдуль'Салахаддим"), "имя должно быть валидным");
+        assertTrue(UserValidator.validateName("Dmitry"), "имя должно быть валидным");
+
+        assertFalse(UserValidator.validateName("123sd"), "имя с цифрами должно быть невалидным");
+        assertFalse(UserValidator.validateName("!@%^"), "имя со спецсимволами должно быть невалидным");
+        assertFalse(UserValidator.validateName("N A M E"), "имя с пробелами должно быть невалидным");
+        assertFalse(UserValidator.validateName(null), "null имя должно быть невалидным");
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = { "парол", "p", " ", })
-    void testValidateShortPassword (String password) {
-        Assertions.assertFalse(UserValidator.validatePassword(password));
+    private static void testPasswordValidation() {
+        assertTrue(UserValidator.validatePassword("пароль123"), "пароль должен быть валидным");
+        assertTrue(UserValidator.validatePassword("password"), "пароль должен быть валидным");
+        assertTrue(UserValidator.validatePassword("qwe!@#ccc"), "пароль должен быть валидным");
+
+        assertFalse(UserValidator.validatePassword("парол"), "короткий пароль должен быть невалидным");
+        assertFalse(UserValidator.validatePassword("p"), "короткий пароль должен быть невалидным");
+        assertFalse(UserValidator.validatePassword(" "), "короткий пароль должен быть невалидным");
+        assertFalse(UserValidator.validatePassword(null), "null пароль должен быть невалидным");
     }
 
-    @ParameterizedTest
-    @NullSource
-    void testValidateNullPassword (String password) {
-        Assertions.assertFalse(UserValidator.validatePassword(password));
+    private static void testValidateId() {
+        assertTrue(UserValidator.validateId(1), "id должен быть валидным");
+        assertFalse(UserValidator.validateId(-1), "отрицательный id должен быть невалидным");
+        assertFalse(UserValidator.validateId(0), "нулевой id должен быть невалидным");
     }
 
-    @Test
-    void testValidateId () {
-        int validId = 1;
-        int invalidId = -1;
-        int zeroId = 0;
+    private static void assertTrue(boolean condition, String message) {
+        if (!condition) {
+            throw new IllegalStateException(message);
+        }
+    }
 
-        Assertions.assertTrue(UserValidator.validateId(validId));
-        Assertions.assertFalse(UserValidator.validateId(invalidId));
-        Assertions.assertFalse(UserValidator.validateId(zeroId));
+    private static void assertFalse(boolean condition, String message) {
+        if (condition) {
+            throw new IllegalStateException(message);
+        }
     }
 }

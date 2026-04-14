@@ -12,13 +12,13 @@ import java.util.Comparator;
 
 public class EvenOddSortTest {
     public static void main(String[] args) {
-        testEvenOddSort(new BubbleSortStrategy());
-        testEvenOddSort(new SelectionSortStrategy());
-        testEvenOddSort(new InsertionSortStrategy());
+        testEvenOddSortKeepsOddIdsInOriginalPositions(new BubbleSortStrategy());
+        testEvenOddSortKeepsOddIdsInOriginalPositions(new SelectionSortStrategy());
+        testEvenOddSortKeepsOddIdsInOriginalPositions(new InsertionSortStrategy());
         System.out.println("EvenOddSortTest: все проверки пройдены");
     }
 
-    private static void testEvenOddSort(AbstractSortStrategy sortStrategy) {
+    private static void testEvenOddSortKeepsOddIdsInOriginalPositions(AbstractSortStrategy sortStrategy) {
         UserList users = new UserList();
         users.add(createUser(5));
         users.add(createUser(8));
