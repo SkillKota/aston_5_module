@@ -9,10 +9,14 @@ import java.util.concurrent.*;
 public class MultiThreadCounter implements CounterService{
     @Override
     public int countById(UserList users, int id) {
-        int threads = 5;
+        if (users.isEmpty()) {
+            return 0;
+        }
+
+        int threads = Math.min(5, users.size());
         ExecutorService executorService = Executors.newFixedThreadPool(threads);
         List<Future<Integer>> futures = new ArrayList<>();
-        int chunkSize = (int) Math.ceil((double) users.size());
+        int chunkSize = (int) Math.ceil(users.size() / (double) threads);
 
         for(int i = 0; i < users.size(); i+= chunkSize) {
             int start = i;

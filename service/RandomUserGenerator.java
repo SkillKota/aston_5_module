@@ -21,7 +21,7 @@ public class RandomUserGenerator implements InputService{
 
         UserList userList = new UserList();
 
-        List<User> users = Stream.generate(() -> new User.BuilderUser(Math.abs(random.nextInt()))
+        List<User> users = Stream.generate(() -> new User.BuilderUser(random.nextInt(1, Integer.MAX_VALUE))
                 .name(generateString(5, 10, random))
                 .password(generateString(6, 20, random))
                 .email(generateString(5, 15, random) + "@mail.ru")

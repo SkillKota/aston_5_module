@@ -31,12 +31,21 @@ public class FileInputService implements InputService {
                 return new UserList();
             }
             for (String str : stringBuilder.toString().split("\n")) {
-                String[] split = str.split(",");
-                userList.add(new User.BuilderUser(Integer.parseInt(split[0]))
-                        .name(split[1])
-                        .email(split[2])
-                        .password(split[3])
-                        .build());
+                String[] split = str.trim().split(",");
+                if (split.length != 4) {
+                    System.out.println("Некорректная строка файла: " + str);
+                    continue;
+                }
+
+                try {
+                    userList.add(new User.BuilderUser(Integer.parseInt(split[0].trim()))
+                            .name(split[1].trim())
+                            .email(split[2].trim())
+                            .password(split[3].trim())
+                            .build());
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Некорректные данные пользователя: " + str);
+                }
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
