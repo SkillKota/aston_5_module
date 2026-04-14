@@ -6,7 +6,7 @@ import homework5.service.MultiThreadCounter;
 
 public class MultiThreadCounterTest {
 
-    static void main() {
+    static void main(String[] args) {
         UserList userList = new UserList();
         userList.add(new User.BuilderUser(1).name("dsadas").email("dsakdksa@jdas.js").password("12312j3i12j3").build());
         userList.add(new User.BuilderUser(1).name("dsadas").email("dsakdksa@jdas.js").password("12312j3i12j3").build());

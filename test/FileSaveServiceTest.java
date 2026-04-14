@@ -6,7 +6,7 @@ import homework5.service.RandomUserGenerator;
 
 public class FileSaveServiceTest {
 
-    static void main() {
+    static void main(String[] args) {
         RandomUserGenerator randomUserGenerator = new RandomUserGenerator();
         UserList userList = randomUserGenerator.input(3);
         FileSaveUserService fileSaveUserService = new FileSaveUserService();
