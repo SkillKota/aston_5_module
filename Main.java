@@ -2,8 +2,13 @@ package homework5;
 
 import homework5.collection.UserList;
 import homework5.service.CounterService;
+import homework5.service.FileInputService;
 import homework5.service.FileSaveService;
+import homework5.service.FileSaveUserService;
 import homework5.service.InputService;
+import homework5.service.ManualInputService;
+import homework5.service.MultiThreadCounter;
+import homework5.service.RandomUserGenerator;
 import homework5.service.UserComparatorProvider;
 import homework5.strategy.BubbleSortStrategy;
 import homework5.strategy.InsertionSortStrategy;
@@ -19,15 +24,15 @@ import java.util.Scanner;
 public class Main {
     private static final Scanner scanner = new Scanner(System.in);
     private static final UserList users = new UserList();
-    private static final InputService manualInputService = null;
-    private static final InputService fileInputService = null;
-    private static final InputService randomInputService = null;
+    private static final InputService manualInputService = new ManualInputService();
+    private static final InputService fileInputService = new FileInputService();
+    private static final InputService randomInputService = new RandomUserGenerator();
     private static final SortStrategy bubbleSortStrategy = new BubbleSortStrategy();
     private static final SortStrategy selectionSortStrategy = new SelectionSortStrategy();
     private static final SortStrategy insertionSortStrategy = new InsertionSortStrategy();
     private static final UserComparatorProvider comparatorProvider = Main::getComparatorByField;
-    private static final FileSaveService fileSaveService = null;
-    private static final CounterService counterService = null;
+    private static final FileSaveService fileSaveService = new FileSaveUserService();
+    private static final CounterService counterService = new MultiThreadCounter();
 
     private static void handleManualInput() {
         handleInputByType(FillType.MANUAL);
