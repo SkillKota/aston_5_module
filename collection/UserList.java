@@ -110,7 +110,7 @@ public class UserList implements UserCollection {
             throw new IndexOutOfBoundsException("Некорректный индекс: " + index);
         }
     }
-
+    //проверка на null
     private void validateUser(User user) {
         if (user == null) {
             throw new IllegalArgumentException("Пользователь не может быть null");
