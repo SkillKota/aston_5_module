@@ -14,6 +14,8 @@ import homework5.service.UserComparatorProvider;
 import homework5.strategy.BubbleSortStrategy;
 import homework5.strategy.InsertionSortStrategy;
 import homework5.strategy.SelectionSortStrategy;
+import homework5.strategy.AbstractSortStrategy;
+import homework5.strategy.SortMode;
 import homework5.strategy.SortStrategy;
 import homework5.util.FillType;
 import homework5.util.SortField;
@@ -202,6 +204,7 @@ public class Main {
         if (comparator == null) {
             return;
         }
+        applySortMode(sortStrategy);
 
         try {
             sortStrategy.sort(users, comparator);
@@ -224,6 +227,33 @@ public class Main {
             System.out.println("Компаратор для поля \"" + sortField.getDescription() + "\" не найден");
         }
         return comparator;
+    }
+
+    private static void applySortMode(SortStrategy sortStrategy) {
+        if (!(sortStrategy instanceof AbstractSortStrategy abstractSortStrategy)) {
+            return;
+        }
+
+        abstractSortStrategy.setMode(requestSortMode());
+    }
+
+    private static SortMode requestSortMode() {
+        while (true) {
+            System.out.println("""
+                    Выберите режим сортировки:
+                    1 - обычная сортировка
+                    2 - сортировка четных id, нечетные остаются на местах
+                    """);
+            int modeNumber = readMenuChoice();
+            switch (modeNumber) {
+                case 1:
+                    return SortMode.NORMAL;
+                case 2:
+                    return SortMode.EVEN_ODD;
+                default:
+                    System.out.println("Неверный выбор режима");
+            }
+        }
     }
 
     private static SortField requestSortField() {
