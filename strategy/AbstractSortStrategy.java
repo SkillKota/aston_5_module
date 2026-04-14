@@ -20,16 +20,40 @@ public abstract class AbstractSortStrategy implements SortStrategy {
     }
 
     protected int compare(User u1, User u2, Comparator<User> baseComparator) {
-
-        if (mode == SortMode.EVEN_ODD) {
-            boolean even1 = u1.getId() % 2 == 0;
-            boolean even2 = u2.getId() % 2 == 0;
-
-            if (even1 && !even2) return -1;
-            if (!even1 && even2) return 1;
-        }
-
-        return baseComparator.compare(u1, u2);
+        return getComparator(baseComparator).compare(u1, u2);
     }
 
+    protected int[] getEvenIndexes(UserList users) {
+        int count = 0;
+        for (int i = 0; i < users.size(); i++) {
+            if (isEven(users.get(i))) {
+                count++;
+            }
+        }
+
+        int[] indexes = new int[count];
+        int index = 0;
+        for (int i = 0; i < users.size(); i++) {
+            if (isEven(users.get(i))) {
+                indexes[index++] = i;
+            }
+        }
+        return indexes;
+    }
+
+    protected boolean isEvenOddMode() {
+        return mode == SortMode.EVEN_ODD;
+    }
+
+    private Comparator<User> getComparator(Comparator<User> baseComparator) {
+        if (mode == SortMode.EVEN_ODD) {
+            return Comparator.comparingInt(User::getId);
+        }
+
+        return baseComparator;
+    }
+
+    private boolean isEven(User user) {
+        return user.getId() % 2 == 0;
+    }
 }
